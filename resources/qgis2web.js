@@ -72,16 +72,88 @@ var expandedAttribution = new ol.control.Attribution({
     collapsible: false
 });
 
+var exportControl = function(opt_options) {
+    var exportButton = document.createElement('button');
+    exportButton.className += 'btn btn-outline-dark fa fa-download';
+
+    var downloadButton = document.createElement('a');
+    downloadButton.setAttribute('download', 'map.png');
+
+    exportButton.addEventListener('click', function () {
+  map.once('rendercomplete', function () {
+    const mapCanvas = document.createElement('canvas');
+    const size = map.getSize();
+    mapCanvas.width = size[0];
+    mapCanvas.height = size[1];
+    const mapContext = mapCanvas.getContext('2d');
+    Array.prototype.forEach.call(
+      map.getViewport().querySelectorAll('.ol-layer canvas, canvas.ol-layer'),
+      function (canvas) {
+        if (canvas.width > 0) {
+          const opacity =
+            canvas.parentNode.style.opacity || canvas.style.opacity;
+          mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+          let matrix;
+          const transform = canvas.style.transform;
+          if (transform) {
+            // Get the transform parameters from the style's transform matrix
+            matrix = transform
+              .match(/^matrix\(([^\(]*)\)$/)[1]
+              .split(',')
+              .map(Number);
+          } else {
+            matrix = [
+              parseFloat(canvas.style.width) / canvas.width,
+              0,
+              0,
+              parseFloat(canvas.style.height) / canvas.height,
+              0,
+              0,
+            ];
+          }
+          // Apply the transform to the export map context
+          CanvasRenderingContext2D.prototype.setTransform.apply(
+            mapContext,
+            matrix,
+          );
+          const backgroundColor = canvas.parentNode.style.backgroundColor;
+          if (backgroundColor) {
+            mapContext.fillStyle = backgroundColor;
+            mapContext.fillRect(0, 0, canvas.width, canvas.height);
+          }
+          mapContext.drawImage(canvas, 0, 0);
+        }
+      },
+    );
+    mapContext.globalAlpha = 1;
+    mapContext.setTransform(1, 0, 0, 1, 0, 0);
+    const link = downloadButton;
+    link.href = mapCanvas.toDataURL();
+    link.click();
+  });
+  map.renderSync();
+});
+
+   var element = document.createElement('div');
+   element.className = 'export-control ol-unselectable ol-control';
+   element.appendChild(exportButton);
+   element.appendChild(downloadButton);
+   ol.control.Control.call(this, {
+     element: element
+   });
+ };
+ ol.inherits(exportControl, ol.control.Control);
+
 var map = new ol.Map({
     controls: ol.control.defaults({attribution:false}).extend([
-        expandedAttribution,new measureControl()
+        expandedAttribution,new measureControl(),new exportControl()
     ]),
     target: document.getElementById('map'),
     renderer: 'canvas',
     overlays: [overlayPopup],
     layers: layersList,
     view: new ol.View({
-         maxZoom: 28, minZoom: 1, projection: new ol.proj.Projection({
+         maxZoom: 33, minZoom: 1, projection: new ol.proj.Projection({
             code: 'EPSG:4326',
             extent: [-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789],
             units: 'degrees'})
@@ -206,7 +278,7 @@ var onPointerMove = function(evt) {
                         popupText += '<li><table>'
                         popupText += '<a>' + '<b>' + 'Layer' + ':&nbsp;' + layer.get('popuplayertitle') + '</b>' + '</a>';
                         popupText += createPopupField(currentFeature, currentFeatureKeys, layer);
-                        popupText += '</table></li>';    
+                        popupText += '</table></li>';
                     }
                 }
             } else {
@@ -235,7 +307,13 @@ var onPointerMove = function(evt) {
                 var styleDefinition = currentLayer.getStyle().toString();
 
                 if (currentFeature.getGeometry().getType() == 'Point' || currentFeature.getGeometry().getType() == 'MultiPoint') {
-                    var radius = styleDefinition.split('radius')[1].split(' ')[1];
+                  //console.log(document.getElementById('mapZoomHidden').value);
+                    //var radius = styleDefinition.split('radius')[1].split(' ')[1];
+                    var radius = document.getElementById('mapZoomHidden').value;
+                    if(radius == 0 || radius == null || radius === 'undefined' || radius <= 28)
+                      radius = 5;
+                    else
+                      radius = radius / 3;
 
                     highlightStyle = new ol.style.Style({
                         image: new ol.style.Circle({
@@ -275,7 +353,7 @@ var onPointerMove = function(evt) {
         if (popupText) {
             overlayPopup.setPosition(coord);
             content.innerHTML = popupText;
-            container.style.display = 'block';        
+            container.style.display = 'block';
         } else {
             container.style.display = 'none';
             closer.blur();
@@ -316,7 +394,7 @@ var onSingleClick = function(evt) {
                         popupText += '<li><table>'
 						popupText += '<a>' + '<b>' + 'Layer' + ':&nbsp;' + layer.get('popuplayertitle') + '</b>' + '</a>';
 						popupText += createPopupField(currentFeature, currentFeatureKeys, layer);
-                        popupText += '</table></li>';    
+                        popupText += '</table></li>';
                     }
                 }
             } else {
@@ -335,7 +413,7 @@ var onSingleClick = function(evt) {
     } else {
         popupText += '</ul>';
     }
-    
+
 	var viewProjection = map.getView().getProjection();
 	var viewResolution = map.getView().getResolution();
 
@@ -374,7 +452,7 @@ var onSingleClick = function(evt) {
 				.then((response) => {
 					if (response.ok) {
 						return response.text();
-					} //else {						
+					} //else {
 					//}
 				})
 				.then((html) => {
@@ -398,7 +476,7 @@ var onSingleClick = function(evt) {
     if (popupText) {
         overlayPopup.setPosition(coord);
         content.innerHTML = popupText;
-        container.style.display = 'block';        
+        container.style.display = 'block';
     } else {
         container.style.display = 'none';
         closer.blur();
@@ -425,7 +503,7 @@ var onSingleClick = function(evt) {
             helpTooltip.setPosition(evt.coordinate);
         }
     });
-    
+
 
 map.on('pointermove', function(evt) {
     onPointerMove(evt);
@@ -508,14 +586,14 @@ var continuePolygonMsg = "1click continue, 2click close";
 var typeSelect = document.getElementById("type");
 var typeSelectForm = document.getElementById("form_measure");
 
-typeSelect.onchange = function (e) {		  
+typeSelect.onchange = function (e) {
   map.removeInteraction(draw);
   addInteraction();
-  map.addInteraction(draw);		  
+  map.addInteraction(draw);
 };
 
 var style = new ol.style.Style({
-  stroke: new ol.style.Stroke({ 
+  stroke: new ol.style.Stroke({
 	color: "rgba(0, 0, 255)", //blu
 	lineDash: [10, 10],
 	width: 4
@@ -523,26 +601,26 @@ var style = new ol.style.Style({
   image: new ol.style.Circle({
 	radius: 6,
 	stroke: new ol.style.Stroke({
-	  color: "rgba(255, 255, 255)", 
+	  color: "rgba(255, 255, 255)",
 	  width: 1
 	}),
   })
 });
 
-var style2 = new ol.style.Style({	  
+var style2 = new ol.style.Style({
 	stroke: new ol.style.Stroke({
-		color: "rgba(255, 255, 255)", 
+		color: "rgba(255, 255, 255)",
 		lineDash: [10, 10],
 		width: 2
 	  }),
   image: new ol.style.Circle({
 	radius: 5,
 	stroke: new ol.style.Stroke({
-	  color: "rgba(0, 0, 255)", 
+	  color: "rgba(0, 0, 255)",
 	  width: 1
 	}),
 		  fill: new ol.style.Fill({
-	  color: "rgba(255, 204, 51, 0.4)", 
+	  color: "rgba(255, 204, 51, 0.4)",
 	}),
 	  })
 });
@@ -755,6 +833,7 @@ document.getElementsByClassName('gcd-gl-btn')[0].className += ' fa fa-search';
 
 var attributionComplete = false;
 map.on("rendercomplete", function(evt) {
+  //document.getElementById('mapZoomHidden').value = map.getView().getZoom();
     if (!attributionComplete) {
         var attribution = document.getElementsByClassName('ol-attribution')[0];
         var attributionList = attribution.getElementsByTagName('ul')[0];
@@ -770,4 +849,8 @@ map.on("rendercomplete", function(evt) {
         attributionList.insertBefore(qgisAttribution, firstLayerAttribution);
         attributionComplete = true;
     }
-})
+});
+
+map.on('moveend', function(evt) {
+      document.getElementById('mapZoomHidden').value = Math.floor(map.getView().getZoom());
+});
