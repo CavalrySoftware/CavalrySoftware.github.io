@@ -8,7 +8,11 @@ var style_Wells_2 = function(feature, resolution){
     };
     var value = ""
     var labelText = "";
-    size = 0;
+    size = document.getElementById('mapZoomHidden').value;
+    if(size == 0 || size == null || size === 'undefined' || size <= 28)
+      size = 5;
+    else
+      size = size / 3;
     var labelFont = "7.800000000000001px \'Open Sans\', sans-serif";
     var labelFill = "#ffffff";
     var bufferColor = "";
@@ -21,7 +25,7 @@ var style_Wells_2 = function(feature, resolution){
         labelText = String("");
     }
     var style = [ new ol.style.Style({
-        image: new ol.style.Circle({radius: 2.0 + size,
+        image: new ol.style.Circle({radius: size + 0,
             stroke: new ol.style.Stroke({color: 'rgba(50,87,128,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 0.0}), fill: new ol.style.Fill({color: 'rgba(72,123,182,1.0)'})}),
         text: createTextStyle(feature, resolution, labelText, labelFont,
                               labelFill, placement, bufferColor,
