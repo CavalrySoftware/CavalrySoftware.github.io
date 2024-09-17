@@ -8,11 +8,12 @@ var wms_layers = [];
             permalink:"S",
             //'type': 'base',
             'opacity': 1.000000,
-            
-            
+
+
             source: new ol.source.XYZ({
     attributions: ' ',
-                url: 'http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}'
+                url: 'http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}',
+                crossOrigin: "anonymous"
             })
         });
 
@@ -20,15 +21,16 @@ var wms_layers = [];
             'title': 'Base Satellite',
             //'type': 'base',
             'opacity': 1.000000,
-            
-            
+
+
             source: new ol.source.XYZ({
     attributions: ' ',
-                url: 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'
+                url: 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
+                crossOrigin: "anonymous"
             })
         });
 var format_Wells_2 = new ol.format.GeoJSON();
-var features_Wells_2 = format_Wells_2.readFeatures(json_Wells_2, 
+var features_Wells_2 = format_Wells_2.readFeatures(json_Wells_2,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_Wells_2 = new ol.source.Vector({
     attributions: ' ',
@@ -36,14 +38,14 @@ var jsonSource_Wells_2 = new ol.source.Vector({
 jsonSource_Wells_2.addFeatures(features_Wells_2);
 var lyr_Wells_2 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_Wells_2, 
+                source:jsonSource_Wells_2,
                 style: style_Wells_2,
                 popuplayertitle: "Wells",
                 interactive: true,
                 title: '<img src="styles/legend/Wells_2.png" /> Wells'
             });
 var format_environments_3 = new ol.format.GeoJSON();
-var features_environments_3 = format_environments_3.readFeatures(json_environments_3, 
+var features_environments_3 = format_environments_3.readFeatures(json_environments_3,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_environments_3 = new ol.source.Vector({
     attributions: ' ',
@@ -51,14 +53,14 @@ var jsonSource_environments_3 = new ol.source.Vector({
 jsonSource_environments_3.addFeatures(features_environments_3);
 var lyr_environments_3 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_environments_3, 
+                source:jsonSource_environments_3,
                 style: style_environments_3,
                 popuplayertitle: "environments",
                 interactive: true,
                 title: '<img src="styles/legend/environments_3.png" /> environments'
             });
 var format_gates_4 = new ol.format.GeoJSON();
-var features_gates_4 = format_gates_4.readFeatures(json_gates_4, 
+var features_gates_4 = format_gates_4.readFeatures(json_gates_4,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_gates_4 = new ol.source.Vector({
     attributions: ' ',
@@ -66,14 +68,14 @@ var jsonSource_gates_4 = new ol.source.Vector({
 jsonSource_gates_4.addFeatures(features_gates_4);
 var lyr_gates_4 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_gates_4, 
+                source:jsonSource_gates_4,
                 style: style_gates_4,
                 popuplayertitle: "gates",
                 interactive: true,
                 title: '<img src="styles/legend/gates_4.png" /> gates'
             });
 var format_buildings_5 = new ol.format.GeoJSON();
-var features_buildings_5 = format_buildings_5.readFeatures(json_buildings_5, 
+var features_buildings_5 = format_buildings_5.readFeatures(json_buildings_5,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_buildings_5 = new ol.source.Vector({
     attributions: ' ',
@@ -81,14 +83,14 @@ var jsonSource_buildings_5 = new ol.source.Vector({
 jsonSource_buildings_5.addFeatures(features_buildings_5);
 var lyr_buildings_5 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_buildings_5, 
+                source:jsonSource_buildings_5,
                 style: style_buildings_5,
                 popuplayertitle: "buildings",
                 interactive: true,
                 title: '<img src="styles/legend/buildings_5.png" /> buildings'
             });
 var format_borrow_pits_proposed_6 = new ol.format.GeoJSON();
-var features_borrow_pits_proposed_6 = format_borrow_pits_proposed_6.readFeatures(json_borrow_pits_proposed_6, 
+var features_borrow_pits_proposed_6 = format_borrow_pits_proposed_6.readFeatures(json_borrow_pits_proposed_6,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_borrow_pits_proposed_6 = new ol.source.Vector({
     attributions: ' ',
@@ -96,14 +98,14 @@ var jsonSource_borrow_pits_proposed_6 = new ol.source.Vector({
 jsonSource_borrow_pits_proposed_6.addFeatures(features_borrow_pits_proposed_6);
 var lyr_borrow_pits_proposed_6 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_borrow_pits_proposed_6, 
+                source:jsonSource_borrow_pits_proposed_6,
                 style: style_borrow_pits_proposed_6,
                 popuplayertitle: "borrow_pits_proposed",
                 interactive: true,
                 title: '<img src="styles/legend/borrow_pits_proposed_6.png" /> borrow_pits_proposed'
             });
 var format_roads_proposed_7 = new ol.format.GeoJSON();
-var features_roads_proposed_7 = format_roads_proposed_7.readFeatures(json_roads_proposed_7, 
+var features_roads_proposed_7 = format_roads_proposed_7.readFeatures(json_roads_proposed_7,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_roads_proposed_7 = new ol.source.Vector({
     attributions: ' ',
@@ -111,14 +113,14 @@ var jsonSource_roads_proposed_7 = new ol.source.Vector({
 jsonSource_roads_proposed_7.addFeatures(features_roads_proposed_7);
 var lyr_roads_proposed_7 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_roads_proposed_7, 
+                source:jsonSource_roads_proposed_7,
                 style: style_roads_proposed_7,
                 popuplayertitle: "roads_proposed",
                 interactive: true,
                 title: '<img src="styles/legend/roads_proposed_7.png" /> roads_proposed'
             });
 var format_fences_8 = new ol.format.GeoJSON();
-var features_fences_8 = format_fences_8.readFeatures(json_fences_8, 
+var features_fences_8 = format_fences_8.readFeatures(json_fences_8,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_fences_8 = new ol.source.Vector({
     attributions: ' ',
@@ -126,14 +128,14 @@ var jsonSource_fences_8 = new ol.source.Vector({
 jsonSource_fences_8.addFeatures(features_fences_8);
 var lyr_fences_8 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_fences_8, 
+                source:jsonSource_fences_8,
                 style: style_fences_8,
                 popuplayertitle: "fences",
                 interactive: true,
                 title: '<img src="styles/legend/fences_8.png" /> fences'
             });
 var format_properties_qld_9 = new ol.format.GeoJSON();
-var features_properties_qld_9 = format_properties_qld_9.readFeatures(json_properties_qld_9, 
+var features_properties_qld_9 = format_properties_qld_9.readFeatures(json_properties_qld_9,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_properties_qld_9 = new ol.source.Vector({
     attributions: ' ',
@@ -141,14 +143,14 @@ var jsonSource_properties_qld_9 = new ol.source.Vector({
 jsonSource_properties_qld_9.addFeatures(features_properties_qld_9);
 var lyr_properties_qld_9 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_properties_qld_9, 
+                source:jsonSource_properties_qld_9,
                 style: style_properties_qld_9,
                 popuplayertitle: "properties_qld",
                 interactive: true,
                 title: '<img src="styles/legend/properties_qld_9.png" /> properties_qld'
             });
 var format_properties_qld_amended_10 = new ol.format.GeoJSON();
-var features_properties_qld_amended_10 = format_properties_qld_amended_10.readFeatures(json_properties_qld_amended_10, 
+var features_properties_qld_amended_10 = format_properties_qld_amended_10.readFeatures(json_properties_qld_amended_10,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_properties_qld_amended_10 = new ol.source.Vector({
     attributions: ' ',
@@ -156,14 +158,14 @@ var jsonSource_properties_qld_amended_10 = new ol.source.Vector({
 jsonSource_properties_qld_amended_10.addFeatures(features_properties_qld_amended_10);
 var lyr_properties_qld_amended_10 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_properties_qld_amended_10, 
+                source:jsonSource_properties_qld_amended_10,
                 style: style_properties_qld_amended_10,
                 popuplayertitle: "properties_qld_amended",
                 interactive: true,
                 title: '<img src="styles/legend/properties_qld_amended_10.png" /> properties_qld_amended'
             });
 var format_properties_sa_11 = new ol.format.GeoJSON();
-var features_properties_sa_11 = format_properties_sa_11.readFeatures(json_properties_sa_11, 
+var features_properties_sa_11 = format_properties_sa_11.readFeatures(json_properties_sa_11,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_properties_sa_11 = new ol.source.Vector({
     attributions: ' ',
@@ -171,14 +173,14 @@ var jsonSource_properties_sa_11 = new ol.source.Vector({
 jsonSource_properties_sa_11.addFeatures(features_properties_sa_11);
 var lyr_properties_sa_11 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_properties_sa_11, 
+                source:jsonSource_properties_sa_11,
                 style: style_properties_sa_11,
                 popuplayertitle: "properties_sa",
                 interactive: true,
                 title: '<img src="styles/legend/properties_sa_11.png" /> properties_sa'
             });
 var format_Pipelines_12 = new ol.format.GeoJSON();
-var features_Pipelines_12 = format_Pipelines_12.readFeatures(json_Pipelines_12, 
+var features_Pipelines_12 = format_Pipelines_12.readFeatures(json_Pipelines_12,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_Pipelines_12 = new ol.source.Vector({
     attributions: ' ',
@@ -186,14 +188,14 @@ var jsonSource_Pipelines_12 = new ol.source.Vector({
 jsonSource_Pipelines_12.addFeatures(features_Pipelines_12);
 var lyr_Pipelines_12 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_Pipelines_12, 
+                source:jsonSource_Pipelines_12,
                 style: style_Pipelines_12,
                 popuplayertitle: "Pipelines",
                 interactive: true,
                 title: '<img src="styles/legend/Pipelines_12.png" /> Pipelines'
             });
 var format_Possiblepipelines_13 = new ol.format.GeoJSON();
-var features_Possiblepipelines_13 = format_Possiblepipelines_13.readFeatures(json_Possiblepipelines_13, 
+var features_Possiblepipelines_13 = format_Possiblepipelines_13.readFeatures(json_Possiblepipelines_13,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_Possiblepipelines_13 = new ol.source.Vector({
     attributions: ' ',
@@ -201,14 +203,14 @@ var jsonSource_Possiblepipelines_13 = new ol.source.Vector({
 jsonSource_Possiblepipelines_13.addFeatures(features_Possiblepipelines_13);
 var lyr_Possiblepipelines_13 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_Possiblepipelines_13, 
+                source:jsonSource_Possiblepipelines_13,
                 style: style_Possiblepipelines_13,
                 popuplayertitle: "Possible pipelines",
                 interactive: true,
                 title: '<img src="styles/legend/Possiblepipelines_13.png" /> Possible pipelines'
             });
 var format_Tenements_14 = new ol.format.GeoJSON();
-var features_Tenements_14 = format_Tenements_14.readFeatures(json_Tenements_14, 
+var features_Tenements_14 = format_Tenements_14.readFeatures(json_Tenements_14,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_Tenements_14 = new ol.source.Vector({
     attributions: ' ',
@@ -216,14 +218,14 @@ var jsonSource_Tenements_14 = new ol.source.Vector({
 jsonSource_Tenements_14.addFeatures(features_Tenements_14);
 var lyr_Tenements_14 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_Tenements_14, 
+                source:jsonSource_Tenements_14,
                 style: style_Tenements_14,
                 popuplayertitle: "Tenements",
                 interactive: true,
                 title: '<img src="styles/legend/Tenements_14.png" /> Tenements'
             });
 var format_TenementsJV_15 = new ol.format.GeoJSON();
-var features_TenementsJV_15 = format_TenementsJV_15.readFeatures(json_TenementsJV_15, 
+var features_TenementsJV_15 = format_TenementsJV_15.readFeatures(json_TenementsJV_15,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_TenementsJV_15 = new ol.source.Vector({
     attributions: ' ',
@@ -231,14 +233,14 @@ var jsonSource_TenementsJV_15 = new ol.source.Vector({
 jsonSource_TenementsJV_15.addFeatures(features_TenementsJV_15);
 var lyr_TenementsJV_15 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_TenementsJV_15, 
+                source:jsonSource_TenementsJV_15,
                 style: style_TenementsJV_15,
                 popuplayertitle: "Tenements JV",
                 interactive: true,
                 title: '<img src="styles/legend/TenementsJV_15.png" /> Tenements JV'
             });
 var format_MTPOil_16 = new ol.format.GeoJSON();
-var features_MTPOil_16 = format_MTPOil_16.readFeatures(json_MTPOil_16, 
+var features_MTPOil_16 = format_MTPOil_16.readFeatures(json_MTPOil_16,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_MTPOil_16 = new ol.source.Vector({
     attributions: ' ',
@@ -246,14 +248,14 @@ var jsonSource_MTPOil_16 = new ol.source.Vector({
 jsonSource_MTPOil_16.addFeatures(features_MTPOil_16);
 var lyr_MTPOil_16 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_MTPOil_16, 
+                source:jsonSource_MTPOil_16,
                 style: style_MTPOil_16,
                 popuplayertitle: "MTP Oil",
                 interactive: true,
                 title: '<img src="styles/legend/MTPOil_16.png" /> MTP Oil'
             });
 var format_MTPGas_17 = new ol.format.GeoJSON();
-var features_MTPGas_17 = format_MTPGas_17.readFeatures(json_MTPGas_17, 
+var features_MTPGas_17 = format_MTPGas_17.readFeatures(json_MTPGas_17,
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:4326'});
 var jsonSource_MTPGas_17 = new ol.source.Vector({
     attributions: ' ',
@@ -261,7 +263,7 @@ var jsonSource_MTPGas_17 = new ol.source.Vector({
 jsonSource_MTPGas_17.addFeatures(features_MTPGas_17);
 var lyr_MTPGas_17 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_MTPGas_17, 
+                source:jsonSource_MTPGas_17,
                 style: style_MTPGas_17,
                 popuplayertitle: "MTP Gas",
                 interactive: true,
