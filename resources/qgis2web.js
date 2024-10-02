@@ -153,7 +153,7 @@ var map = new ol.Map({
     overlays: [overlayPopup],
     layers: layersList,
     view: new ol.View({
-         maxZoom: 33, minZoom: 1, projection: new ol.proj.Projection({
+         maxZoom: 38, minZoom: 1, projection: new ol.proj.Projection({
             code: 'EPSG:4326',
             extent: [-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789],
             units: 'degrees'})
