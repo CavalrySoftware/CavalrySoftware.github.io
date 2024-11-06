@@ -144,21 +144,69 @@ var exportControl = function(opt_options) {
  };
  ol.inherits(exportControl, ol.control.Control);
 
-var map = new ol.Map({
-    controls: ol.control.defaults({attribution:false}).extend([
-        expandedAttribution,new measureControl(),new exportControl()
-    ]),
-    target: document.getElementById('map'),
-    renderer: 'canvas',
-    overlays: [overlayPopup],
-    layers: layersList,
-    view: new ol.View({
-         maxZoom: 38, minZoom: 1, projection: new ol.proj.Projection({
-            code: 'EPSG:4326',
-            extent: [-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789],
-            units: 'degrees'})
-    })
+ var map = new ol.Map({
+  controls: ol.control.defaults({attribution:false}).extend([
+      expandedAttribution,new measureControl(),new exportControl()
+  ]),
+  target: document.getElementById('map'),
+  renderer: 'canvas',
+  overlays: [overlayPopup],
+  layers: layersList,
+  view: new ol.View({
+       maxZoom: 38, minZoom: 1, projection: new ol.proj.Projection({
+          code: 'EPSG:4326',
+          extent: [-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789],
+          units: 'degrees'})
+  })
 });
+
+// LAT/LONG IMPLEMENTATION 
+
+// Add a new div element for the overlay
+var coordinateOverlay = document.createElement('div');
+coordinateOverlay.className = 'coordinate-overlay';
+coordinateOverlay.style.position = 'absolute';
+coordinateOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.9)'; // Slightly transparent
+coordinateOverlay.style.padding = '8px';
+coordinateOverlay.style.borderRadius = '8px';
+coordinateOverlay.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+coordinateOverlay.style.fontSize = '14px';
+coordinateOverlay.style.fontWeight = '500';
+coordinateOverlay.style.color = '#333';
+coordinateOverlay.style.lineHeight = '1.4';
+coordinateOverlay.style.border = '1px solid #ccc';
+document.body.appendChild(coordinateOverlay);
+
+// Create a new overlay and add it to the map
+var overlay = new ol.Overlay({
+    element: coordinateOverlay,
+    positioning: 'bottom-center',
+    offset: [0, -10]
+});
+map.addOverlay(overlay);
+
+// Modify the showCoordinates function to use decimal degrees
+function showCoordinates(event) {
+  if (overlay.getPosition()) {
+      // If overlay is already visible, hide it by clearing the position
+      overlay.setPosition(undefined);
+  } else {
+      // Get the coordinates directly, assuming they are in EPSG:4326
+      var coordinates = event.coordinate;
+
+      var longitude = coordinates[0].toFixed(6); // Longitude in decimal degrees
+      var latitude = coordinates[1].toFixed(6);  // Latitude in decimal degrees
+
+      // Set the content and position of the overlay to show decimal degrees (similar to Google Maps)
+      coordinateOverlay.innerHTML = `Longitude: ${longitude}<br>Latitude: ${latitude}`;
+      overlay.setPosition(coordinates); // Position the overlay
+  }
+}
+
+// Add event listener for map click
+map.on('click', showCoordinates);
+
+// END OF LAT LONG IMPLEMENTATION
 
 var layerSwitcher = new ol.control.LayerSwitcher({tipLabel: "Layers"});
 map.addControl(layerSwitcher);
